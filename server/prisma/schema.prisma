@@ -1,0 +1,161 @@
+// Prisma Schema for Leul Mengesha Portfolio CMS
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id               String   @id @default(uuid())
+  title            String
+  slug             String   @unique
+  shortDescription String
+  fullDescription  String   @db.Text
+  bannerUrl        String
+  gallery          String   @default("[]") // JSON string array of image URLs
+  features         String   @default("[]") // JSON string array of features
+  challenges       String   @default("[]") // JSON string array of challenges
+  lessonsLearned   String   @default("[]") // JSON string array of lessons
+  githubUrl        String?
+  liveUrl          String?
+  category         String
+  featured         Boolean  @default(false)
+  hidden           Boolean  @default(false)
+  orderIndex       Int      @default(0)
+  technologies     String   @default("[]") // JSON string array of tech tags
+  viewsCount       Int      @default(0)
+  githubClicks     Int      @default(0)
+  liveClicks       Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Skill {
+  id         String   @id @default(uuid())
+  name       String
+  category   String
+  percentage Int      @default(80)
+  icon       String   @default("code")
+  orderIndex Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Experience {
+  id           String   @id @default(uuid())
+  role         String
+  company      String
+  location     String?
+  startDate    String
+  endDate      String?
+  current      Boolean  @default(false)
+  description  String   @default("[]") // JSON string array of bullet points
+  technologies String   @default("[]") // JSON string array
+  orderIndex   Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Education {
+  id           String   @id @default(uuid())
+  institution  String
+  degree       String
+  fieldOfStudy String
+  location     String?
+  startDate    String
+  endDate      String
+  gpa          String?
+  description  String?
+  courses      String   @default("[]") // JSON string array of relevant coursework
+  orderIndex   Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Certificate {
+  id            String   @id @default(uuid())
+  title         String
+  issuer        String
+  date          String
+  credentialUrl String?
+  imageUrl      String?
+  description   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  title       String
+  description String   @db.Text
+  icon        String   @default("terminal")
+  features    String   @default("[]") // JSON string array
+  orderIndex  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  message   String   @db.Text
+  read      Boolean  @default(false)
+  archived  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(uuid())
+  type      String   // pageview, project_view, github_click, demo_click, resume_download, contact_submit
+  target    String?  // project ID, page route, or button name
+  page      String
+  visitorId String
+  ip        String   @default("127.0.0.1")
+  device    String   @default("Desktop")
+  browser   String   @default("Chrome")
+  os        String   @default("Windows")
+  country   String   @default("United States")
+  city      String   @default("Seattle")
+  referrer  String   @default("Direct")
+  timestamp DateTime @default(now())
+}
+
+model VisitorLog {
+  id           String   @id @default(uuid())
+  visitorId    String   @unique
+  ip           String   @default("127.0.0.1")
+  country      String   @default("United States")
+  city         String   @default("Seattle")
+  browser      String   @default("Chrome")
+  os           String   @default("Windows")
+  device       String   @default("Desktop")
+  pagesVisited String   @default("[]") // JSON string array of visited paths
+  referrer     String   @default("Direct")
+  duration     Int      @default(0) // seconds
+  sessionStart DateTime @default(now())
+  sessionEnd   DateTime @default(now())
+}
+
+model Setting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String   @db.Text // JSON value string
+  updatedAt DateTime @updatedAt
+}
