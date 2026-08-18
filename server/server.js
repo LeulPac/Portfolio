@@ -24,29 +24,22 @@ const app = express();
 // Render / reverse-proxy: required so rate-limit and IPs work correctly
 app.set('trust proxy', 1);
 
-const allowedOrigins = (process.env.CORS_ORIGIN || '')
-  .split(',')
-  .map((origin) => origin.trim().replace(/\/$/, ''))
-  .filter(Boolean);
-
 app.use(helmet({
   crossOriginResourcePolicy: false,
   contentSecurityPolicy: false
 }));
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.length === 0 || allowedOrigins.includes('*')) {
-      return callback(null, true);
-    }
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    return callback(null, false);
-  },
-  credentials: true,
+// Reflect the browser Origin so Vercel → Render requests are not blocked.
+// JWT is sent in the Authorization header (not cookies).
+const corsOptions = {
+  origin: true,
+  credentials: false,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-visitor-id']
-}));
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // Rate Limiting
 const limiter = rateLimit({
