@@ -11,8 +11,17 @@ import ProtectedRoute from './components/common/ProtectedRoute';
 
 // Public Pages
 import HomePage from './pages/public/HomePage';
+import ProjectsPage from './pages/public/ProjectsPage';
+import EducationPage from './pages/public/EducationPage';
+import ContactPage from './pages/public/ContactPage';
 import ProjectDetailsPage from './pages/public/ProjectDetailsPage';
 import NotFoundPage from './pages/public/NotFoundPage';
+import AboutPage from './pages/public/AboutPage';
+import SkillsPage from './pages/public/SkillsPage';
+import ExperiencePage from './pages/public/ExperiencePage';
+import CertificatesPage from './pages/public/CertificatesPage';
+import ServicesPage from './pages/public/ServicesPage';
+import PublicLayout from './components/common/PublicLayout';
 
 // Admin Pages
 import LoginPage from './pages/admin/LoginPage';
@@ -35,7 +44,17 @@ function App() {
         <AnalyticsProvider>
           <Routes>
             {/* Public Portfolio Routes */}
-            <Route path="/" element={<HomePage />} />
+            <Route element={<PublicLayout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/education" element={<EducationPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/skills" element={<SkillsPage />} />
+              <Route path="/experience" element={<ExperiencePage />} />
+              <Route path="/certificates" element={<CertificatesPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+            </Route>
             <Route path="/projects/:slug" element={<ProjectDetailsPage />} />
 
             {/* Admin Auth Routes */}

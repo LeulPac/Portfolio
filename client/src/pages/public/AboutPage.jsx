@@ -1,15 +1,15 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
-import Hero from '../../components/public/Hero';
+import About from '../../components/public/About';
 
-const HomePage = () => {
+const AboutPage = () => {
   const { settings = {} } = useOutletContext() || {};
 
   return (
-    <main>
-      <Hero settings={settings} />
+    <main className="pt-16">
+      <About settings={settings} />
     </main>
   );
 };
 
-export default HomePage;
+export default AboutPage;

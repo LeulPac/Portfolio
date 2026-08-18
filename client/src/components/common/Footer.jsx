@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FaGithub, FaLinkedin, FaEnvelope, FaChevronUp } from 'react-icons/fa';
 
 const Footer = ({ settings = {} }) => {
@@ -60,10 +61,10 @@ const Footer = ({ settings = {} }) => {
           <div>
             <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-200 uppercase tracking-wider mb-4">Navigation</h4>
             <ul className="space-y-2.5 text-sm text-slate-600 dark:text-slate-400">
-              <li><a href="#hero" className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Home</a></li>
-              <li><a href="#projects" className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Projects</a></li>
-              <li><a href="#education" className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Education</a></li>
-              <li><a href="#contact" className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Contact</a></li>
+              <li><Link to="/" className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Home</Link></li>
+              <li><Link to="/projects" className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Projects</Link></li>
+              <li><Link to="/education" className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Education</Link></li>
+              <li><Link to="/contact" className="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors">Contact</Link></li>
             </ul>
           </div>
 
@@ -75,12 +76,12 @@ const Footer = ({ settings = {} }) => {
               <li><span className="text-slate-500">Email:</span> {settings.email || 'leul.mengesha.dev@gmail.com'}</li>
               <li><span className="text-slate-500">Role:</span> Full Stack Developer</li>
               <li className="pt-2">
-                <a
-                  href="#contact"
+                <Link
+                  to="/contact"
                   className="inline-block text-xs font-semibold text-cyan-500 dark:text-cyan-400 hover:underline"
                 >
                   Send a Direct Message &rarr;
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

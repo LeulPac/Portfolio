@@ -60,7 +60,7 @@ const Services = ({ services = [] }) => {
 
               <div className="pt-8 border-t border-slate-800/60 mt-6">
                 <a
-                  href="#contact"
+                  href="/contact"
                   className="text-xs font-bold text-cyan-400 group-hover:text-cyan-300 flex items-center gap-1"
                 >
                   Request Consultation &rarr;

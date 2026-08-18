@@ -6,64 +6,34 @@ import { FaGithub, FaLinkedin, FaDownload } from 'react-icons/fa';
 import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
-  { name: 'Home', href: '/#hero', sectionId: 'hero', icon: HiHome },
-  { name: 'Projects', href: '/#projects', sectionId: 'projects', icon: HiCode },
-  { name: 'Education', href: '/#education', sectionId: 'education', icon: HiAcademicCap },
-  { name: 'Contact', href: '/#contact', sectionId: 'contact', icon: HiMail },
+  { name: 'Home', href: '/', icon: HiHome, match: (path) => path === '/' },
+  { name: 'Projects', href: '/projects', icon: HiCode, match: (path) => path === '/projects' || path.startsWith('/projects/') },
+  { name: 'Education', href: '/education', icon: HiAcademicCap, match: (path) => path === '/education' },
+  { name: 'Contact', href: '/contact', icon: HiMail, match: (path) => path === '/contact' },
 ];
 
 const Navbar = ({ siteLogo = 'LM.', settings = {} }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-
-      const sections = ['hero', 'projects', 'education', 'contact'];
-      const scrollPos = window.scrollY + 200;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveSection(sections[i]);
-          break;
-        }
-      }
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile drawer on resize to desktop
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setMobileOpen(false);
-      }
+      if (window.innerWidth >= 1024) setMobileOpen(false);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const scrollToSection = (href, sectionId) => {
-    setMobileOpen(false);
-    setActiveSection(sectionId);
-    if (href.startsWith('/#')) {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
   const handleResumeClick = () => {
-    if (settings.resumeUrl) {
-      window.open(settings.resumeUrl, '_blank');
-    }
+    if (settings.resumeUrl) window.open(settings.resumeUrl, '_blank');
   };
 
   return (
@@ -71,7 +41,6 @@ const Navbar = ({ siteLogo = 'LM.', settings = {} }) => {
       <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrolled ? 'glass-nav py-3 shadow-lg' : 'bg-transparent py-5'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
-          {/* Brand Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-slate-950 dark:text-slate-950 font-extrabold text-xl shadow-glow group-hover:scale-105 transition-transform">
               LM
@@ -81,20 +50,13 @@ const Navbar = ({ siteLogo = 'LM.', settings = {} }) => {
             </span>
           </Link>
 
-          {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full glass-card">
             {navLinks.map((link) => {
-              const isActive = activeSection === link.sectionId;
+              const isActive = link.match(location.pathname);
               return (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    if (location.pathname === '/') {
-                      e.preventDefault();
-                      scrollToSection(link.href, link.sectionId);
-                    }
-                  }}
+                  to={link.href}
                   className={`relative px-4 py-2 text-sm font-semibold rounded-full transition-all duration-200 ${
                     isActive
                       ? 'text-cyan-600 dark:text-cyan-400'
@@ -109,30 +71,21 @@ const Navbar = ({ siteLogo = 'LM.', settings = {} }) => {
                     />
                   )}
                   <span className="relative z-10">{link.name}</span>
-                </a>
+                </Link>
               );
             })}
           </div>
 
-          {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-4">
             <ThemeToggle />
-
-            <a
-              href="/#contact"
-              onClick={(e) => {
-                if (location.pathname === '/') {
-                  e.preventDefault();
-                  scrollToSection('/#contact', 'contact');
-                }
-              }}
+            <Link
+              to="/contact"
               className="px-5 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-cyan-400 via-cyan-500 to-indigo-500 hover:from-cyan-300 hover:to-indigo-400 rounded-xl shadow-glow transition-all transform hover:-translate-y-0.5"
             >
               Get In Touch
-            </a>
+            </Link>
           </div>
 
-          {/* Mobile Hamburger Button */}
           <div className="flex lg:hidden items-center gap-3">
             <ThemeToggle />
             <button
@@ -146,11 +99,9 @@ const Navbar = ({ siteLogo = 'LM.', settings = {} }) => {
         </div>
       </nav>
 
-      {/* Slide-Out Mobile Navigation Drawer (z-[100] top layer) */}
       <AnimatePresence>
         {mobileOpen && (
           <div className="fixed inset-0 z-[100] lg:hidden">
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -159,7 +110,6 @@ const Navbar = ({ siteLogo = 'LM.', settings = {} }) => {
               className="absolute inset-0 bg-black/70 backdrop-blur-md"
             />
 
-            {/* Slide-Out Navigation Panel */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -168,17 +118,13 @@ const Navbar = ({ siteLogo = 'LM.', settings = {} }) => {
               className="absolute top-0 right-0 bottom-0 w-[85vw] max-w-[340px] bg-slate-900 text-slate-100 border-l border-slate-800 shadow-2xl p-6 flex flex-col justify-between overflow-y-auto"
             >
               <div>
-                {/* Drawer Header */}
                 <div className="flex items-center justify-between pb-6 border-b border-slate-800">
                   <div className="flex items-center gap-2.5">
                     <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-slate-950 font-extrabold text-sm">
                       LM
                     </div>
-                    <span className="text-base font-bold text-slate-100">
-                      Navigation
-                    </span>
+                    <span className="text-base font-bold text-slate-100">Navigation</span>
                   </div>
-
                   <button
                     onClick={() => setMobileOpen(false)}
                     className="p-2 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors"
@@ -187,23 +133,15 @@ const Navbar = ({ siteLogo = 'LM.', settings = {} }) => {
                   </button>
                 </div>
 
-                {/* Mobile Navigation Links */}
                 <div className="py-6 flex flex-col gap-2.5">
                   {navLinks.map((link) => {
                     const Icon = link.icon;
-                    const isActive = activeSection === link.sectionId;
+                    const isActive = link.match(location.pathname);
                     return (
-                      <a
+                      <Link
                         key={link.name}
-                        href={link.href}
-                        onClick={(e) => {
-                          if (location.pathname === '/') {
-                            e.preventDefault();
-                            scrollToSection(link.href, link.sectionId);
-                          } else {
-                            setMobileOpen(false);
-                          }
-                        }}
+                        to={link.href}
+                        onClick={() => setMobileOpen(false)}
                         className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-200 ${
                           isActive
                             ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-glow'
@@ -215,13 +153,12 @@ const Navbar = ({ siteLogo = 'LM.', settings = {} }) => {
                         {isActive && (
                           <span className="ml-auto w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-glow" />
                         )}
-                      </a>
+                      </Link>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Drawer Bottom Actions */}
               <div className="pt-6 border-t border-slate-800 flex flex-col gap-4">
                 <button
                   onClick={handleResumeClick}
@@ -252,7 +189,6 @@ const Navbar = ({ siteLogo = 'LM.', settings = {} }) => {
                       <FaLinkedin className="w-4 h-4" />
                     </a>
                   </div>
-
                   <ThemeToggle />
                 </div>
               </div>

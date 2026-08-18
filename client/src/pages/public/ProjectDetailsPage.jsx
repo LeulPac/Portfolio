@@ -87,7 +87,7 @@ const ProjectDetailsPage = () => {
           
           {/* Back Navigation */}
           <Link
-            to="/#projects"
+            to="/projects"
             className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-cyan-400 transition-colors"
           >
             <FaArrowLeft /> Back to Showcase Projects
