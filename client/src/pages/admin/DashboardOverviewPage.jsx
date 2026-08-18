@@ -40,13 +40,13 @@ const DashboardOverviewPage = () => {
   const unreadCount = messages.filter(m => !m.read && !m.archived).length;
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100">
+    <div className="flex min-h-screen bg-slate-950 text-slate-100 overflow-x-hidden">
       <AdminSidebar unreadCount={unreadCount} />
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 w-full">
         <AdminHeader title="Dashboard Overview" />
 
-        <main className="p-6 space-y-8 overflow-y-auto">
+        <main className="p-4 md:p-6 w-full max-w-full overflow-x-hidden space-y-6 md:space-y-8 overflow-y-auto">
           {loading ? (
             <SkeletonLoader type="card" count={4} />
           ) : (

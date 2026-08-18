@@ -100,8 +100,8 @@ const ProjectFormModal = ({ isOpen, onClose, onSave, project = null }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
-      <div className="glass-card rounded-3xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto space-y-6 my-8 border border-slate-800">
+    <div className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
+      <div className="glass-card rounded-3xl p-4 md:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto space-y-6 my-4 md:my-8 border border-slate-800">
         
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-4">

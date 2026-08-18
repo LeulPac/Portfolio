@@ -46,16 +46,16 @@ const ServicesAdminPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100">
+    <div className="flex min-h-screen bg-slate-950 text-slate-100 overflow-x-hidden">
       <AdminSidebar />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 w-full">
         <AdminHeader title="Services Management" />
-        <main className="p-6 space-y-8">
+        <main className="p-4 md:p-6 w-full max-w-full overflow-x-hidden space-y-6 md:space-y-8">
           
           <div className="glass-card rounded-3xl p-6 space-y-4">
             <h3 className="text-sm font-bold text-slate-100 font-mono">Create Engineering Service</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
                   type="text"
                   required

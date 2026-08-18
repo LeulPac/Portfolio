@@ -69,12 +69,12 @@ const SettingsAdminPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100">
+    <div className="flex min-h-screen bg-slate-950 text-slate-100 overflow-x-hidden">
       <AdminSidebar />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 w-full">
         <AdminHeader title="Portfolio & System Settings" />
 
-        <main className="p-6 space-y-8 max-w-4xl">
+        <main className="p-4 md:p-6 w-full max-w-full md:max-w-4xl overflow-x-hidden space-y-6 md:space-y-8">
           
           {statusMessage && (
             <div className="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold">
@@ -88,7 +88,7 @@ const SettingsAdminPage = () => {
               <FaCog className="text-cyan-400" /> Personal Profile & Branding
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
                 <label className="text-xs text-slate-300">Full Name *</label>
                 <input
@@ -125,7 +125,7 @@ const SettingsAdminPage = () => {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-1">
                 <label className="text-xs text-slate-300">Email Address</label>
                 <input
@@ -160,7 +160,7 @@ const SettingsAdminPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
                 <label className="text-xs text-slate-300">Avatar Image URL (Cloudinary / Web)</label>
                 <input
@@ -184,7 +184,7 @@ const SettingsAdminPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-1">
                 <label className="text-xs text-slate-300">GitHub Link</label>
                 <input
@@ -222,7 +222,7 @@ const SettingsAdminPage = () => {
             <div className="border-t border-slate-800 pt-4 space-y-4">
               <h4 className="text-xs font-mono font-bold text-slate-300">SEO & Analytics Meta Tags</h4>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-xs text-slate-300">SEO Meta Title</label>
                   <input
@@ -262,7 +262,7 @@ const SettingsAdminPage = () => {
               <FaLock className="text-rose-400" /> Security - Change Admin Password
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="password"
                 required

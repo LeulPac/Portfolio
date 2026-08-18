@@ -45,17 +45,17 @@ const SkillsAdminPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100">
+    <div className="flex min-h-screen bg-slate-950 text-slate-100 overflow-x-hidden">
       <AdminSidebar />
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 w-full">
         <AdminHeader title="Skills Management" />
 
-        <main className="p-6 space-y-8">
+        <main className="p-4 md:p-6 w-full max-w-full overflow-x-hidden space-y-6 md:space-y-8">
           {/* Add Skill Form */}
           <div className="glass-card rounded-3xl p-6 space-y-4">
             <h3 className="text-sm font-bold text-slate-100 font-mono">Add New Skill</h3>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-1">
                 <label className="text-xs text-slate-300">Skill Name *</label>
                 <input
@@ -98,7 +98,7 @@ const SkillsAdminPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="py-2.5 px-4 text-xs font-bold text-slate-950 bg-cyan-400 rounded-xl shadow-glow flex items-center justify-center gap-2"
+                className="w-full sm:col-span-2 lg:col-span-1 py-3 px-4 text-sm font-bold text-slate-950 bg-cyan-400 rounded-xl shadow-glow flex items-center justify-center gap-2"
               >
                 <FaPlus /> Add Skill
               </button>

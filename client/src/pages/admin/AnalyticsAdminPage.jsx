@@ -29,11 +29,11 @@ const AnalyticsAdminPage = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100">
+    <div className="flex min-h-screen bg-slate-950 text-slate-100 overflow-x-hidden">
       <AdminSidebar />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 w-full">
         <AdminHeader title="Real-Time Analytics Dashboard" />
-        <main className="p-6 space-y-8">
+        <main className="p-4 md:p-6 w-full max-w-full overflow-x-hidden space-y-6 md:space-y-8">
           
           <AnalyticsCharts
             dailyData={overview?.charts?.dailyTraffic || []}

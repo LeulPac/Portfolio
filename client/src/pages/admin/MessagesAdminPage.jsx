@@ -57,13 +57,13 @@ const MessagesAdminPage = () => {
   );
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100">
+    <div className="flex min-h-screen bg-slate-950 text-slate-100 overflow-x-hidden">
       <AdminSidebar unreadCount={messages.filter(m => !m.read && !m.archived).length} />
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 w-full">
         <AdminHeader title="Messages Inbox" />
 
-        <main className="p-6 space-y-6">
+        <main className="p-4 md:p-6 w-full max-w-full overflow-x-hidden space-y-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="relative w-full sm:w-80">
               <FaSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4" />
@@ -76,7 +76,7 @@ const MessagesAdminPage = () => {
               />
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
               {['all', 'unread', 'archived'].map((f) => (
                 <button
                   key={f}
@@ -123,7 +123,7 @@ const MessagesAdminPage = () => {
             <div className="lg:col-span-7 glass-card rounded-3xl p-6 space-y-6">
               {selectedMessage ? (
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-4 gap-3 flex-wrap">
                     <div>
                       <h3 className="text-lg font-bold text-slate-100">{selectedMessage.subject}</h3>
                       <p className="text-xs text-slate-400">

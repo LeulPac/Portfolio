@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { AdminLayoutProvider } from '../../context/AdminLayoutContext';
 
 const ProtectedRoute = () => {
   const { isAuthenticated, loading } = useAuth();
@@ -16,7 +17,13 @@ const ProtectedRoute = () => {
     );
   }
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/admin/login" replace />;
+  return isAuthenticated ? (
+    <AdminLayoutProvider>
+      <Outlet />
+    </AdminLayoutProvider>
+  ) : (
+    <Navigate to="/admin/login" replace />
+  );
 };
 
 export default ProtectedRoute;
