@@ -43,7 +43,7 @@ const Hero = ({ settings = {} }) => {
           className="relative w-full max-w-3xl flex justify-center items-center my-4 group"
         >
           {/* Outer Ambient Aura Glow */}
-          <div className="absolute -inset-8 rounded-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 blur-3xl opacity-20 group-hover:opacity-40 transition duration-1000 animate-pulse" />
+          <div className="absolute -inset-6 rounded-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 blur-3xl opacity-20 group-hover:opacity-35 transition duration-700" />
 
           {/* Transparent portrait — no bg, no clipping, full subject visible */}
           <div className="relative flex justify-center items-end w-full">

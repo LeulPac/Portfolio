@@ -1,59 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
 
 const AnimatedCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
-  const [isHovered, setIsHovered] = useState(false);
+  const ringRef = useRef(null);
+  const dotRef = useRef(null);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    if (window.matchMedia('(pointer: coarse)').matches) return;
 
-      const target = e.target;
-      if (
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.closest('button') ||
-        target.closest('a') ||
-        target.getAttribute('role') === 'button'
-      ) {
-        setIsHovered(true);
-      } else {
-        setIsHovered(false);
-      }
+    const pos = { x: -100, y: -100 };
+    let hovered = false;
+    let frame = 0;
+
+    const apply = () => {
+      frame = 0;
+      const ring = ringRef.current;
+      const dot = dotRef.current;
+      if (!ring || !dot) return;
+
+      const scale = hovered ? 1.8 : 1;
+      ring.style.transform = `translate3d(${pos.x - 16}px, ${pos.y - 16}px, 0) scale(${scale})`;
+      ring.style.backgroundColor = hovered ? 'rgba(6, 182, 212, 0.2)' : 'transparent';
+      dot.style.transform = `translate3d(${pos.x - 4}px, ${pos.y - 4}px, 0)`;
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+    const onMove = (e) => {
+      pos.x = e.clientX;
+      pos.y = e.clientY;
+      const target = e.target;
+      hovered = Boolean(target.closest?.('a, button, [role="button"]'));
+      if (!frame) frame = requestAnimationFrame(apply);
+    };
 
-  // Hide cursor on mobile touch screens
-  if (typeof window !== 'undefined' && 'ontouchstart' in window) {
-    return null;
-  }
+    window.addEventListener('mousemove', onMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
 
   return (
     <>
-      <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-cyan-400/60 pointer-events-none z-50 mix-blend-difference hidden md:block"
-        animate={{
-          x: mousePosition.x - 16,
-          y: mousePosition.y - 16,
-          scale: isHovered ? 1.8 : 1,
-          backgroundColor: isHovered ? 'rgba(6, 182, 212, 0.2)' : 'transparent',
-        }}
-        transition={{ type: 'spring', damping: 25, stiffness: 250, mass: 0.5 }}
+      <div
+        ref={ringRef}
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-cyan-400/60 pointer-events-none z-50 mix-blend-difference hidden md:block will-change-transform"
+        style={{ transform: 'translate3d(-100px, -100px, 0)' }}
       />
-      <motion.div
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-cyan-400 pointer-events-none z-50 hidden md:block"
-        animate={{
-          x: mousePosition.x - 4,
-          y: mousePosition.y - 4,
-        }}
-        transition={{ type: 'spring', damping: 35, stiffness: 450 }}
+      <div
+        ref={dotRef}
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-cyan-400 pointer-events-none z-50 hidden md:block will-change-transform"
+        style={{ transform: 'translate3d(-100px, -100px, 0)' }}
       />
     </>
   );
 };
 
-export default AnimatedCursor;
+export default React.memo(AnimatedCursor);
