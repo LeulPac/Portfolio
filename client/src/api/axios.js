@@ -1,7 +1,18 @@
 import axios from 'axios';
 
+const rawApiUrl = (import.meta.env.VITE_API_URL || '').trim().replace(/\/$/, '');
+
+const baseURL = rawApiUrl
+  ? (rawApiUrl.endsWith('/api/v1') ? rawApiUrl : `${rawApiUrl}/api/v1`)
+  : '/api/v1';
+
+if (import.meta.env.PROD && !rawApiUrl) {
+  console.error('VITE_API_URL is not set. The Vercel frontend cannot reach the Render backend.');
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api/v1',
+  baseURL,
+  timeout: 60000,
   headers: {
     'Content-Type': 'application/json'
   }

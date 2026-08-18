@@ -24,7 +24,14 @@ const LoginPage = () => {
         setError(res.message || 'Invalid admin credentials');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Check backend server connection.');
+      const apiMessage = err.response?.data?.message;
+      if (apiMessage) {
+        setError(apiMessage);
+      } else if (err.code === 'ECONNABORTED') {
+        setError('Backend timed out. Render free services can take up to a minute to wake up — try again.');
+      } else {
+        setError('Login failed. Check VITE_API_URL on Vercel and that the Render backend is live.');
+      }
     } finally {
       setLoading(false);
     }

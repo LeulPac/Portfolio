@@ -21,16 +21,30 @@ const settingRoutes = require('./routes/settingRoutes');
 
 const app = express();
 
-// Security Middlewares
+// Render / reverse-proxy: required so rate-limit and IPs work correctly
+app.set('trust proxy', 1);
+
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map((origin) => origin.trim().replace(/\/$/, ''))
+  .filter(Boolean);
+
 app.use(helmet({
   crossOriginResourcePolicy: false,
   contentSecurityPolicy: false
 }));
 
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.length === 0 || allowedOrigins.includes('*')) {
+      return callback(null, true);
+    }
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(null, false);
+  },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-visitor-id']
 }));
 
