@@ -1,7 +1,12 @@
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_jwt_key_leul_mengesha_2026_cms_app';
+const DEFAULT_DEV_SECRET = 'dev_only_jwt_secret_change_in_production';
+const JWT_SECRET = process.env.JWT_SECRET || (process.env.NODE_ENV === 'production' ? null : DEFAULT_DEV_SECRET);
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
+
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is required in production.');
+}
 
 const generateToken = (user) => {
   return jwt.sign(

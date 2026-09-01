@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaShieldAlt, FaLock, FaEnvelope, FaArrowRight } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('admin@leulmengesha.com');
-  const [password, setPassword] = useState('AdminPassword123!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectPath = location.state?.from || '/admin/dashboard';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ const LoginPage = () => {
     try {
       const res = await login(email, password);
       if (res.success) {
-        navigate('/admin/dashboard');
+        navigate(redirectPath, { replace: true });
       } else {
         setError(res.message || 'Invalid admin credentials');
       }

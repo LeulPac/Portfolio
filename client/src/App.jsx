@@ -8,6 +8,7 @@ import { AnalyticsProvider } from './context/AnalyticsContext';
 
 // Common Components
 import ProtectedRoute from './components/common/ProtectedRoute';
+import GuestRoute from './components/common/GuestRoute';
 
 // Public Pages
 import HomePage from './pages/public/HomePage';
@@ -58,8 +59,10 @@ function App() {
             <Route path="/projects/:slug" element={<ProjectDetailsPage />} />
 
             {/* Admin Auth Routes */}
-            <Route path="/admin/login" element={<LoginPage />} />
-            <Route path="/admin/forgot-password" element={<ForgotPasswordPage />} />
+            <Route element={<GuestRoute />}>
+              <Route path="/admin/login" element={<LoginPage />} />
+              <Route path="/admin/forgot-password" element={<ForgotPasswordPage />} />
+            </Route>
 
             {/* Protected Admin Dashboard Routes */}
             <Route element={<ProtectedRoute />}>

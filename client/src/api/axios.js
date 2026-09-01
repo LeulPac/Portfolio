@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { clearAuthSession, redirectToAdminLogin } from '../utils/authSession';
 
 const rawApiUrl = (import.meta.env.VITE_API_URL || '').trim().replace(/\/$/, '');
 
@@ -18,7 +19,6 @@ const api = axios.create({
   }
 });
 
-// Intercept requests to add JWT Token & Visitor ID
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -36,6 +36,22 @@ api.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error)
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error.response?.status;
+    const requestUrl = error.config?.url || '';
+    const isAuthRequest = requestUrl.includes('/auth/login') || requestUrl.includes('/auth/forgot-password');
+
+    if ((status === 401 || status === 403) && !isAuthRequest) {
+      clearAuthSession();
+      redirectToAdminLogin();
+    }
+
+    return Promise.reject(error);
+  }
 );
 
 export default api;
