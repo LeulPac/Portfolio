@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+
+Sitemap: https://portfolio-ruddy-six-86.vercel.app/sitemap.xml

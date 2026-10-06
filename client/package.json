@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "axios": "^1.6.7",
