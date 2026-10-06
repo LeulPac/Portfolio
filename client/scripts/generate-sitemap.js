@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Replace with custom domain if attached in the future
-const BASE_URL = process.env.VITE_SITE_URL || 'https://portfolio-ruddy-six-86.vercel.app';
+const BASE_URL = process.env.VITE_SITE_URL || 'https://leulmengeshaportfolio.vercel.app';
 const API_URL = process.env.VITE_API_URL || 'https://portfolio-1-8aom.onrender.com/api/v1';
 
 const staticRoutes = [
